@@ -1,5 +1,3 @@
-const http = require("http");
-
 // creating an express app
 const express = require("express");
 const app = express();
@@ -20,6 +18,5 @@ app.use((req, res, next) => {
   res.send("<h1>Hello From Express</h2>");
 });
 
-const server = http.createServer(app);
-
-server.listen(3000);
+// listening for request on port 3000
+app.listen(3000);
