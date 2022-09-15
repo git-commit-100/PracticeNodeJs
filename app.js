@@ -2,20 +2,33 @@
 const express = require("express");
 const app = express();
 
+// importing body-parser
+const bodyParser = require("body-parser");
+
+// importing routes
+const indexRoutes = require("./routes/index");
+const shopRoutes = require("./routes/shop");
+
 // working with middleware
 // Request -> Middleware -> Response
 
-app.use((req, res, next) => {
-  console.log("In 1st middleware");
-  // calling next to pass it to next middleware
-  next();
-});
+// when we use app.use() only for POST request
+// gets executed even for other http requests;
+// using express req methods app.get(), app.post(), app.put(), app.delete(), etc....
 
-app.use((req, res, next) => {
-  console.log("In 2nd Middleware");
-  // now do not want to transfer to next middleware
-  // so reuturning some response back to client
-  res.send("<h1>Hello From Express</h2>");
+// runs for every req
+// must be at TOP so to run it for every req
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// order fo routes still matter
+// exact matching TOP -> lowest matching (all) at BOTTOM
+
+app.use("/shop", shopRoutes);
+app.use(indexRoutes);
+
+// fallback page (404 page)
+app.use("*", (req, res, next) => {
+  res.status(404).send("<h1>Page Not Found !</h1>");
 });
 
 // listening for request on port 3000
