@@ -1,6 +1,9 @@
 // creating an express app
 const express = require("express");
 const app = express();
+const path = require("path");
+
+const rootDir = require("./utils/path");
 
 // importing body-parser
 const bodyParser = require("body-parser");
@@ -28,7 +31,7 @@ app.use(indexRoutes);
 
 // fallback page (404 page)
 app.use("*", (req, res, next) => {
-  res.status(404).send("<h1>Page Not Found !</h1>");
+  res.status(404).sendFile(path.join(rootDir, "views", "error404.html"));
 });
 
 // listening for request on port 3000
