@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="/css/main.css" />
   </head>
   <body>
     <header>
@@ -12,15 +13,18 @@
         <ul class="nav-ul">
           <li class="li-item"><a href="/">Home</a></li>
           <li class="li-item"><a href="/shop/products">Products</a></li>
-          <li class="li-item"><a href="/shop/add-product">Add a Product</a></li>
+          <li class="li-item">
+            <a href="/shop/add-product" class="active">Add a Product</a>
+          </li>
         </ul>
       </nav>
     </header>
 
     <main>
       <div id="add-product-form-div">
+        <h3>Add Your Product Here</h3>
         <form action="/shop/add-product" method="post" class="add-product-form">
-          <input type="text" name="product" required />
+          <input type="text" name="product" required autocomplete="off" />
           <button type="submit">Add Product</button>
         </form>
       </div>

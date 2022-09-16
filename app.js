@@ -23,6 +23,9 @@ const shopRoutes = require("./routes/shop");
 // must be at TOP so to run it for every req
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// using static serving to serve .css files between vies
+app.use(express.static(path.join(rootDir, "public")));
+
 // order fo routes still matter
 // exact matching TOP -> lowest matching (all) at BOTTOM
 
