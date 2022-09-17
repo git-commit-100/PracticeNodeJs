@@ -1,16 +1,20 @@
 // creating an express app
 const express = require("express");
-const app = express();
 const path = require("path");
+const app = express();
 
 const rootDir = require("./utils/path");
+
+// using templating engine EJS
+app.set("view engine", "ejs");
+app.set("views", "views");
 
 // importing body-parser
 const bodyParser = require("body-parser");
 
 // importing routes
-const indexRoutes = require("./routes/index");
-const shopRoutes = require("./routes/shop");
+const { router: indexRoutes } = require("./routes/index");
+const { router: shopRoutes } = require("./routes/shop");
 
 // working with middleware
 // Request -> Middleware -> Response
@@ -34,7 +38,10 @@ app.use(indexRoutes);
 
 // fallback page (404 page)
 app.use("*", (req, res, next) => {
-  res.status(404).sendFile(path.join(rootDir, "views", "error404.html"));
+  res.status(404).render("error-404", {
+    pageTitle: "Not Found",
+    path: "",
+  });
 });
 
 // listening for request on port 3000

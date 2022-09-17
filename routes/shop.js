@@ -5,22 +5,35 @@ const rootDir = require("../utils/path");
 
 const router = express.Router();
 
+const productsArr = [];
+
 // route for /shop/products => GET
 router.get("/products", (req, res, next) => {
-  res.sendFile(path.join(rootDir, "views", "products.html"));
+  res.render("products", {
+    pageTitle: "Products Page",
+    path: "/shop/products",
+    products: productsArr,
+  });
 });
 
 // route for /shop/add-product => GET
 router.get("/add-product", (req, res, next) => {
-  res.sendFile(path.join(rootDir, "views", "add-product.html"));
+  res.render("add-product", {
+    pageTitle: "Add Product Page",
+    path: "/shop/add-product",
+  });
 });
 
 // routes can contain same name with different methods
 
 // route for /shop/add-product => POST
 router.post("/add-product", (req, res, next) => {
-  console.log(req.body);
-  res.redirect("/");
+  productsArr.push({ title: req.body.product });
+  console.log(productsArr);
+  res.redirect("/shop/products");
 });
 
-module.exports = router;
+module.exports = {
+  router,
+  productsArr,
+};

@@ -7,7 +7,10 @@ const router = express.Router();
 
 router.get("/", (req, res, next) => {
   // use sendFile() to return a html file
-  res.sendFile(path.join(rootDir, "views", "index.html"));
+  res.render("index", {
+    pageTitle: "Express Shop",
+    path: "/",
+  });
 });
 
-module.exports = router;
+module.exports = { router };

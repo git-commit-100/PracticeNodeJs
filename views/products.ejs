@@ -1,0 +1,24 @@
+<%- include("includes/header.ejs") %> <%- include("includes/navigation.ejs") %>
+
+<div id="products-div">
+  <h3>Products Page</h3>
+  <% if (products.length > 0) { %>
+    <ul class="products-ul">
+    <% for (product of products) { %>
+    <li class="product-item">
+      <h4><%= product.title %></h4>
+      <img
+        src="https://media.gettyimages.com/photos/stack-of-books-picture-id157482029?s=612x612"
+        alt="Image"
+      />
+      <p class="desc">Product Description</p>
+      <p class="price">Price: <span>$45</span></p>
+    </li>
+    <% } %>
+  </ul>
+  <% } else { %>
+  <h3 class="no-products">No Products Found !</h3>
+  <% } %>
+</div>
+
+<%- include("includes/footer.ejs") %>
