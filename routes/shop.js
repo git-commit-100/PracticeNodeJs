@@ -1,13 +1,11 @@
 const express = require("express");
-const path = require("path");
 
-const rootDir = require("../utils/path");
-
+// using express router
 const router = express.Router();
 
 const productsArr = [];
 
-// route for /shop/products => GET
+// route -> /shop/products
 router.get("/products", (req, res, next) => {
   res.render("products", {
     pageTitle: "Products Page",
@@ -16,7 +14,7 @@ router.get("/products", (req, res, next) => {
   });
 });
 
-// route for /shop/add-product => GET
+// route -> /shop/add-product (GET)
 router.get("/add-product", (req, res, next) => {
   res.render("add-product", {
     pageTitle: "Add Product Page",
@@ -24,12 +22,16 @@ router.get("/add-product", (req, res, next) => {
   });
 });
 
-// routes can contain same name with different methods
-
-// route for /shop/add-product => POST
-router.post("/add-product", (req, res, next) => {
-  productsArr.push({ title: req.body.product });
-  console.log(productsArr);
+// route -> /shop/add-product (POST)
+router.post("/add-product", (req, res, use) => {
+  // pushing new product to array
+  const {
+    productTitle: title,
+    productDesc: desc,
+    productImg: img,
+    productPrice: price,
+  } = req.body;
+  productsArr.push({ title, desc, img, price });
   res.redirect("/shop/products");
 });
 

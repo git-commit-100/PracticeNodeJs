@@ -1,0 +1,225 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+:root {
+  --primary-color: rgb(2, 2, 110);
+  --secondary-color: rgb(164, 170, 255);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+/* header and navbar */
+
+body header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+nav#navbar {
+  width: 100%;
+  background-color: white;
+  padding: 1rem 5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 5px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+a.logo {
+  font-size: 22px;
+  font-weight: bold;
+  background: linear-gradient(
+    to right,
+    var(--primary-color),
+    var(--secondary-color),
+    var(--primary-color)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+ul.nav-ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+li.nav-item a {
+  text-decoration: none;
+  transition: all 0.1s ease-in-out;
+  color: black;
+  font-weight: normal;
+}
+
+li.nav-item a.active {
+  color: var(--primary-color);
+}
+
+li.nav-item a:hover {
+  border-bottom: 2px solid var(--secondary-color);
+}
+
+/* body and main  */
+
+body main {
+  margin: 0 auto;
+  margin-top: 5rem;
+  width: 80%;
+  padding: 1.25rem;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.15);
+}
+
+body main div {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+main div h2.header {
+  align-self: center;
+}
+
+/* products page  */
+
+ul.products-ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  list-style: none;
+}
+
+li.product {
+  padding: 1rem;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-around;
+  gap: 1rem;
+  width: 30%;
+  min-width: 20rem;
+  flex-grow: 1 0;
+  /* only height can be same  */
+}
+
+li.product h4 {
+  width: 100%;
+}
+
+li.product img {
+  align-self: center;
+  width: 8rem;
+  height: 8rem;
+  object-fit: cover;
+}
+
+li.product p.desc {
+  width: 100%;
+  overflow-y: auto;
+}
+
+li.product p.price {
+  align-self: flex-end;
+}
+
+p.price span {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+/* add-a-products page  */
+
+form.add-product-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+input {
+  width: 50%;
+  font-size: 16px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid rgb(190, 190, 190);
+}
+
+input:focus {
+  border: 1px solid var(--primary-color);
+  background-color: rgb(238, 245, 255);
+}
+
+button.btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--primary-color);
+  background-color: transparent;
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button.btn:hover {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: transparent;
+}
+
+/* mobile screen optimization  */
+
+@media screen and (max-width: 800px) {
+  li.product {
+    width: 50%;
+  }
+
+  input {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  nav#navbar {
+    padding: 1rem 0.75rem;
+    gap: 1rem;
+  }
+
+  li.nav-item {
+    text-align: center;
+  }
+
+  body main {
+    width: 95%;
+  }
+
+  li.product {
+    width: 100%;
+  }
+
+  input {
+    width: 100%;
+  }
+}

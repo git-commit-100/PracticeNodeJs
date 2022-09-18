@@ -1,12 +1,44 @@
-<%- include("includes/header.ejs") %> 
+<%- include("includes/header.ejs") %> <%- include("includes/nav.ejs") %>
 
-<%- include("includes/navigation.ejs") %>
+<div class="add-product-div">
+  <h2 class="header">Add Product Page</h2>
+  <form class="add-product-form" action="/shop/add-product" method="post">
+    <label for="title-input">Add product Title</label>
+    <input
+      type="text"
+      id="title-input"
+      name="productTitle"
+      autocomplete="off"
+      required
+    />
 
-<div id="add-product-form-div">
-  <h3>Add Your Product Here</h3>
-  <form action="/shop/add-product" method="post" class="add-product-form">
-    <input type="text" name="product" required autocomplete="off" />
-    <button type="submit">Add Product</button>
+    <label for="img-input">Add product Image</label>
+    <input
+      type="text"
+      id="img-input"
+      name="productImg"
+      autocomplete="off"
+      required
+    />
+
+    <label for="desc-input">Add product Description</label>
+    <input
+      type="text"
+      id="desc-input"
+      name="productDesc"
+      autocomplete="off"
+      required
+    />
+
+    <label for="price-input">Add product Price</label>
+    <input
+      type="number"
+      id="price-input"
+      name="productPrice"
+      autocomplete="off"
+      required
+    />
+    <button type="submit" class="btn submit-btn">Add Product</button>
   </form>
 </div>
 

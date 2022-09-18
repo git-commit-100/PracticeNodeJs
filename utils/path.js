@@ -1,7 +1,6 @@
 // getting root file from directory irrespective of OS
 
-// require -> node global var
-// .main -> entry point for node app
+// .main -> entry point for application
 
 const path = require("path");
 
