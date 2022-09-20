@@ -1,8 +1,20 @@
 const fs = require("fs");
+const { url } = require("inspector");
 const path = require("path");
 
 const rootDir = require("../utils/path");
 const filePath = path.join(rootDir, "data", "products.json");
+
+const getDataFromFiles = (callback) => {
+  fs.readFile(filePath, (err, fileContent) => {
+    if (err) {
+      // file don't exist -> passing empty array to callback fn
+      return callback([]);
+    }
+    // file exists -> forwarding data to callback fn
+    return callback(JSON.parse(fileContent));
+  });
+};
 
 class Product {
   constructor(productObj) {
@@ -10,43 +22,32 @@ class Product {
 
     this.title = productTitle;
     this.desc = productDesc;
-    this.img = productImg;
+    this.img = productImg.toString();
     this.price = productPrice;
   }
 
   saveProduct() {
-    let products = [];
-    // is file present already ????
-    fs.readFile(filePath, (err, fileContent) => {
-      if (!err) {
-        // file already exists
-        products = JSON.parse(fileContent);
-      }
-      // 1st product if skipping if check
+    getDataFromFiles((products) => {
       products.push({
         title: this.title,
-        desc: this.desc,
         img: this.img,
+        desc: this.desc,
         price: this.price,
       });
-
-      // writing to a file
+      // writing to file
       fs.writeFile(filePath, JSON.stringify(products), (err, fileContent) => {
         if (err) {
           console.log(err);
+        } else {
+          // log file data
+          console.log(fileContent);
         }
       });
     });
   }
 
   static fetchAllProducts(callback) {
-    fs.readFile(filePath, (err, fileContent) => {
-      if (err) {
-        // file don't exist -> passing empty array
-        return callback([]);
-      }
-      return callback(JSON.parse(fileContent));
-    });
+    getDataFromFiles(callback);
   }
 }
 

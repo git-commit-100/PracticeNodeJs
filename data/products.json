@@ -1,14 +1,20 @@
 [
   {
-    "title": "First Book",
-    "desc": "Very nice book",
-    "img": "someImg.src",
-    "price": "5"
+    "title": "Marry Me Stranger",
+    "img": "https://images-na.ssl-images-amazon.com/images/I/41Cbi+FeaCL.jpg",
+    "desc": "Written by Novoneel Chakraborty, this is the first book in stranger trilogy",
+    "price": "2"
   },
   {
-    "title": "Second Book",
-    "desc": "Another book nice",
-    "img": "someImg2.src",
-    "price": "10"
+    "title": "All Yours Stranger",
+    "img": "https://img.thriftbooks.com/api/images/i/m/99E838CA9FCBCB9D4D817A254A2EEA6F3B2D9F26.jpg",
+    "desc": "Written by Novoneel Chakraborty, this is the second book in stranger trilogy",
+    "price": "2"
+  },
+  {
+    "title": "Forget Me Not Stranger",
+    "img": "https://img.thriftbooks.com/api/images/i/m/AE1357961E1AB544A6EAE8B71CFA6CC5250AD7A0.jpg",
+    "desc": "Written by Novoneel Chakraborty, this is the third book in stranger trilogy",
+    "price": "2"
   }
 ]

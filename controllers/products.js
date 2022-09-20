@@ -2,11 +2,10 @@ const Product = require("../models/product");
 
 const getProductsPage = (req, res, next) => {
   Product.fetchAllProducts((products) => {
-    console.log(products);
     res.render("products", {
       pageTitle: "Products Page",
       path: "/shop/products",
-      products: products,
+      products: products, // [data] or []
     });
   });
 };
