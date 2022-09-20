@@ -1,0 +1,14 @@
+[
+  {
+    "title": "First Book",
+    "desc": "Very nice book",
+    "img": "someImg.src",
+    "price": "5"
+  },
+  {
+    "title": "Second Book",
+    "desc": "Another book nice",
+    "img": "someImg2.src",
+    "price": "10"
+  }
+]

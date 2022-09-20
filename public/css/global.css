@@ -189,6 +189,12 @@ button.btn:hover {
   border-color: transparent;
 }
 
+/* 404 not found page */
+
+p.redirect {
+  align-self: center;
+}
+
 /* mobile screen optimization  */
 
 @media screen and (max-width: 800px) {

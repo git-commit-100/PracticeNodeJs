@@ -5,8 +5,9 @@ const path = require("path");
 
 const bodyParser = require("body-parser");
 
-const { router: shopRouter } = require("./routes/shop");
+const shopRouter = require("./routes/shop");
 const rootDir = require("./utils/path");
+const { get404 } = require("./controllers/error");
 
 // using templating engine
 app.set("view engine", "ejs");
@@ -27,11 +28,6 @@ app.get("/", (req, res, next) => {
 });
 
 // fallback page
-app.use("*", (req, res, next) => {
-  res.status(404).render("not-found", {
-    pageTitle: "Error 404 Not Found",
-    path: "",
-  });
-});
+app.use("*", get404);
 
 app.listen(3000);
