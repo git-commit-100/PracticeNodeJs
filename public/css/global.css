@@ -3,6 +3,8 @@
 :root {
   --primary-color: rgb(2, 2, 110);
   --secondary-color: rgb(164, 170, 255);
+  --success-color: green;
+  --danger-color: red;
 }
 
 * {
@@ -147,10 +149,11 @@ li.product img {
 }
 
 li.product p.desc {
-  width: 200px;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 
 li.product p.price {
@@ -176,13 +179,21 @@ form.add-product-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   gap: 1rem;
+}
+
+form .form-inner-div {
+  width: 50%;
+}
+
+label {
+  align-self: flex-start;
 }
 
 input,
 textarea {
-  width: 50%;
+  width: 100%;
   font-size: 16px;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
@@ -201,6 +212,14 @@ textarea:focus {
   background-color: rgb(238, 245, 255);
 }
 
+.actions-div {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 button.btn,
 a.btn {
   padding: 0.5rem 1.5rem;
@@ -212,6 +231,8 @@ a.btn {
   transition: all 0.2s ease-in-out;
   text-decoration: none;
   font-size: 13px;
+  font-weight: bold;
+  text-align: center;
 }
 
 button.btn:hover,
@@ -221,10 +242,30 @@ a.btn:hover {
   border-color: transparent;
 }
 
-button.btn-large,
-a.btn-large {
+button.lg,
+a.lg {
   padding: 0.75rem 1.75rem;
   font-size: 16px;
+}
+
+.btn.success {
+  border-color: var(--success-color);
+  color: var(--success-color);
+}
+.btn.success:hover {
+  background-color: var(--success-color);
+  color: white;
+  border-color: transparent;
+}
+
+.btn.danger {
+  border-color: var(--danger-color);
+  color: var(--danger-color);
+}
+.btn.danger:hover {
+  background-color: var(--danger-color);
+  color: white;
+  border-color: transparent;
 }
 
 /* 404 not found page */
@@ -314,7 +355,12 @@ div.product-detail-div div.product-actions {
   }
 
   input,
-  textarea {
+  textarea,
+  form .form-inner-div {
+    width: 100%;
+  }
+
+  .actions-div {
     width: 100%;
   }
 }

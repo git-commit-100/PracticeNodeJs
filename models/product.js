@@ -18,20 +18,21 @@ const getDataFromFiles = (callback) => {
 
 class Product {
   constructor(productObj) {
-    const { productTitle, productDesc, productImg, productPrice } = productObj;
+    const { productId, productTitle, productDesc, productImg, productPrice } =
+      productObj;
 
-    this.id = randomUUID();
+    this.id = productId ? productId : null;
     this.title = productTitle;
     this.desc = productDesc;
     this.img = productImg.toString();
     this.price = productPrice;
-    this.quantity = 0;
+    this.quantity = 1;
   }
 
   saveProduct() {
     getDataFromFiles((products) => {
       products.push({
-        id: this.id,
+        id: randomUUID(),
         title: this.title,
         img: this.img,
         desc: this.desc,
@@ -68,6 +69,29 @@ class Product {
         callback(product);
       } else {
         callback(undefined);
+      }
+    });
+  }
+
+  updateProduct(product) {
+    Product.fetchAllProducts((productsArr) => {
+      let existingProductIndex = productsArr.findIndex(
+        (prod) => prod.id === product.id
+      );
+
+      let existingProduct = productsArr[existingProductIndex];
+
+      console.log("Existing Product", existingProduct);
+      console.log("Product from req", product);
+
+      if (existingProduct) {
+        // product exists -> change product
+        productsArr[existingProductIndex] = {...product};
+
+        // write to file
+        fs.writeFile(filePath, JSON.stringify(productsArr), (err) => {
+          console.log(err);
+        });
       }
     });
   }

@@ -35,11 +35,9 @@ class Cart {
 
           //replace product from cart
           cartProducts[existingProductIndex] = updatedProduct;
-          console.log(cartProducts);
         } else {
           // product does not exist -> add to array
           cartProducts.push(productObj);
-          console.log(cartProducts);
         }
 
         // updating cart totalPrice
@@ -60,6 +58,8 @@ class Cart {
       });
     });
   }
+
+  
 }
 
 module.exports = Cart;

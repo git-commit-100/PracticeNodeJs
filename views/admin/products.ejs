@@ -2,6 +2,29 @@
 
 <div class="admin-products-div">
   <h2 class="header">Admin Products Page</h2>
+  <% if(products.length > 0) {%>
+  <ul class="products-ul">
+    <% for(product of products) {%>
+    <li class="product">
+      <h4><%= product.title %></h4>
+      <img src="<%= product.img %>" alt="product img" />
+      <p class="desc"><%= product.desc %></p>
+      <p class="price">Price: <span>$<%= product.price %></span></p>
+      <div class="product-actions">
+        <a
+          href="/admin/edit-product/<%= product.id %>?editMode=true"
+          class="btn"
+          >Edit Product</a
+        >
+        <button class="btn danger">Delete Product</button>
+      </div>
+    </li>
+    <% } %>
+  </ul>
+  <% } else { %>
+  <h3 class="no-products">Oops, no products found !</h3>
+  <p class="no-products-desc">Add some Products to view them here</p>
+  <% } %>
 </div>
 
 <%- include("../includes/footer.ejs") %>
