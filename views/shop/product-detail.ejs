@@ -1,0 +1,19 @@
+<%- include("../includes/header.ejs") %> <%- include("../includes/nav.ejs") %>
+
+<div class="product-detail-div">
+  <p class="title-header">Product Title:</p>
+  <h4><%= product.title %></h4>
+  <p class="img-header">Product Image:</p>
+  <img src="<%= product.img %>" alt="product img" />
+  <p class="desc-header">Product Description:</p>
+  <p class="desc"><%= product.desc %></p>
+  <p class="price-header">Product Price:</p>
+  <p class="price">$ <%= product.price %></p>
+
+  <div class="product-actions" />
+    <a href="/shop/products" class="btn btn-large">Go back</a>
+    <%- include("../includes/add-to-cart.ejs", {btnType: "btn-large", productId: product.id}) %> 
+  </div>
+</div>
+
+<%- include("../includes/footer.ejs") %>

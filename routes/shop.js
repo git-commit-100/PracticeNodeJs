@@ -5,18 +5,30 @@ const router = express.Router();
 
 // importing controller functions
 const {
-  getProductsPage,
-  getAddProductPage,
-  postAddProduct,
+  getShopProductsPage,
+  getShopCart,
+  getShopCheckoutPage,
+  getShopProductDetailPage,
+  getShopIndexPage,
+  postShopCart
 } = require("../controllers/products");
 
+// route -> /shop/products/someProduct()
+router.get("/products/:productId", getShopProductDetailPage);
+
 // route -> /shop/products
-router.get("/products", getProductsPage);
+router.get("/products", getShopProductsPage);
 
-// route -> /shop/add-product (GET)
-router.get("/add-product", getAddProductPage);
+// route -> /shop/cart
+router.get("/cart", getShopCart);
 
-// route -> /shop/add-product (POST)
-router.post("/add-product", postAddProduct);
+// route -> /shop/cart POST
+router.post("/cart", postShopCart)
+
+// route -> /shop/checkout
+router.get("/checkout", getShopCheckoutPage);
+
+// route -> /shop/
+router.get("/", getShopIndexPage);
 
 module.exports = router;

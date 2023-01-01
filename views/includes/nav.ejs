@@ -1,10 +1,26 @@
 <header>
     <nav id="navbar">
-      <a href="/shop/products" class="logo">Shopper's Stop</a>
+      <a href="/" class="logo">Shopper's Stop</a>
       <ul class="nav-ul">
+        <li class="nav-item">
+          <a href="/" class='<%= path === "/" ? "active" : "" %>'>
+            Home
+          </a>
+        </li>
         <li class="nav-item"><a href="/shop/products" class='<%= path === "/shop/products" ? "active" : "" %>'>Products</a></li>
         <li class="nav-item">
-          <a href="/shop/add-product" class='<%= path === "/shop/add-product" ? "active" : "" %>'>Add a Product</a>
+          <a href="/admin/add-product" class='<%= path === "/admin/add-product" ? "active" : "" %>'>Add a Product</a>
+        </li>
+        <li class="nav-item"><a href="/admin/products" class='<%= path === "/admin/products" ? "active" : "" %>'>Admin Products</a></li>
+        <li class="nav-item">
+          <a href="/shop/cart" class='<%= path === "/shop/cart" ? "active" : "" %>'>
+           Cart
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/shop/checkout" class='<%= path === "/shop/checkout" ? "active" : "" %>'>
+            Checkout
+          </a>
         </li>
       </ul>
     </nav>

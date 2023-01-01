@@ -1,6 +1,6 @@
 const fs = require("fs");
-const { url } = require("inspector");
 const path = require("path");
+const { randomUUID } = require("crypto");
 
 const rootDir = require("../utils/path");
 const filePath = path.join(rootDir, "data", "products.json");
@@ -20,19 +20,23 @@ class Product {
   constructor(productObj) {
     const { productTitle, productDesc, productImg, productPrice } = productObj;
 
+    this.id = randomUUID();
     this.title = productTitle;
     this.desc = productDesc;
     this.img = productImg.toString();
     this.price = productPrice;
+    this.quantity = 0;
   }
 
   saveProduct() {
     getDataFromFiles((products) => {
       products.push({
+        id: this.id,
         title: this.title,
         img: this.img,
         desc: this.desc,
         price: this.price,
+        quantity: this.quantity,
       });
       // writing to file
       fs.writeFile(filePath, JSON.stringify(products), (err, fileContent) => {
@@ -48,6 +52,24 @@ class Product {
 
   static fetchAllProducts(callback) {
     getDataFromFiles(callback);
+  }
+
+  static findById(id, callback) {
+    getDataFromFiles((products) => {
+      // product is an array []
+      const product = products.find((prod) => {
+        if (prod.id === id) {
+          return prod;
+        }
+      });
+
+      if (product) {
+        // product is found
+        callback(product);
+      } else {
+        callback(undefined);
+      }
+    });
   }
 }
 
