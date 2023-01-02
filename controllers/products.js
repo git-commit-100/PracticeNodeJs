@@ -1,5 +1,6 @@
 const Product = require("../models/product");
 const Cart = require("../models/cart");
+const { fetchAllCartProducts } = require("../models/cart");
 
 const getShopIndexPage = (req, res, next) => {
   res.render("shop/index", {
@@ -19,9 +20,12 @@ const getShopProductsPage = (req, res, next) => {
 };
 
 const getShopCart = (req, res, next) => {
-  res.render("shop/cart", {
-    pageTitle: "Cart Page",
-    path: "/shop/cart",
+  Cart.fetchAllCartProducts((cartProducts) => {
+    res.render("shop/cart", {
+      pageTitle: "Cart Page",
+      path: "/shop/cart",
+      cartProducts: cartProducts,
+    });
   });
 };
 

@@ -26,10 +26,10 @@ class Product {
     this.desc = productDesc;
     this.img = productImg.toString();
     this.price = productPrice;
-    this.quantity = 1;
+    this.quantity = 0;
   }
 
-  saveProduct() {
+  saveProduct(callback) {
     getDataFromFiles((products) => {
       products.push({
         id: randomUUID(),
@@ -49,6 +49,8 @@ class Product {
         }
       });
     });
+
+    callback();
   }
 
   static fetchAllProducts(callback) {
@@ -73,8 +75,9 @@ class Product {
     });
   }
 
-  updateProduct(product) {
+  updateProduct(product, callback) {
     Product.fetchAllProducts((productsArr) => {
+      // finding index of product so to update there
       let existingProductIndex = productsArr.findIndex(
         (prod) => prod.id === product.id
       );
@@ -86,7 +89,7 @@ class Product {
 
       if (existingProduct) {
         // product exists -> change product
-        productsArr[existingProductIndex] = {...product};
+        productsArr[existingProductIndex] = { ...product };
 
         // write to file
         fs.writeFile(filePath, JSON.stringify(productsArr), (err) => {
@@ -94,6 +97,36 @@ class Product {
         });
       }
     });
+    callback();
+  }
+
+  static deleteProduct(product, callback) {
+    Product.fetchAllProducts((productsArr) => {
+      // finding index of product so to delete it
+      let existingProductIndex = productsArr.findIndex(
+        (prod) => prod.id === product.id
+      );
+
+      let existingProduct = productsArr[existingProductIndex];
+
+      if (existingProduct) {
+
+        // if product to be deleted is present in cart -> delete that too
+        
+
+        // product found -> delete from products file
+        let updatedProductsArr = productsArr.filter(
+          (prod) => prod.id !== existingProduct.id
+        );
+
+        // writing to file
+        fs.writeFile(filePath, JSON.stringify(updatedProductsArr), (err) => {
+          console.log(err);
+        });
+      }
+    });
+
+    callback();
   }
 }
 

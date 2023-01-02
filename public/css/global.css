@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
 :root {
-  --primary-color: rgb(2, 2, 110);
-  --secondary-color: rgb(164, 170, 255);
-  --success-color: green;
-  --danger-color: red;
+  --primary-color: #02026e;
+  --secondary-color: #a4aaff;
+  --success-color: #008000;
+  --danger-color: #ff0000;
 }
 
 * {
@@ -103,7 +103,7 @@ body main div {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   gap: 1rem;
 }
 
@@ -312,6 +312,25 @@ div.product-detail-div div.product-actions {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+/* cart page  */
+div.empty-cart-div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-cart-div > img {
+  width: 16rem;
+  height: 14rem;
+  object-fit: contain;
+}
+
+.empty-cart-div > h2{
+  text-align: center;
 }
 
 /* mobile screen optimization  */

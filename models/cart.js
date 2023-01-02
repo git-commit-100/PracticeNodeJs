@@ -5,61 +5,71 @@ const rootDir = require("../utils/path");
 
 const filePath = path.join(rootDir, "data", "cart.json");
 
+const getCartDataFromFiles = (callback) => {
+  fs.readFile(filePath, (err, fileContent) => {
+    if (err) {
+      // file don't exist -> passing empty array to callback fn
+      return callback({ products: [], totalPrice: 0 });
+    } else {
+      // file exists -> forwarding data to callback fn
+      return callback(JSON.parse(fileContent));
+    }
+  });
+};
 class Cart {
-  static addToCart(productObj) {
-    let cartState = { products: [], totalPrice: 0 };
+  static addToCart(product) {
+    //? add / increment to cart
 
-    //if file exists, parse data in JSON
-    fs.readFile(filePath, (err, fileContent) => {
-      if (!err && fileContent) {
-        // present in file
-        let data = JSON.parse(fileContent);
+    getCartDataFromFiles((cartState) => {
+      // as productObj.quantity is 0 -> updating here
+      let productObj = { ...product, quantity: 1 };
 
-        let { products: cartProducts, totalPrice: cartTotalPrice } = data;
+      if (cartState.products.length === 0) {
+        // no file
+        cartState.products.push(productObj);
+      } else {
+        // file has some content
+        // find if product is already in cart
+        let existingProductIndex = cartState.products.findIndex(
+          (prod) => prod.id === productObj.id
+        );
+        let existingProduct = cartState.products[existingProductIndex];
 
-        // if product already exists ? increment quantity : push product into array
-        let existingProductIndex = cartProducts.findIndex((product) => {
-          if (productObj.id === product.id) {
-            return product;
-          }
-        });
-
-        let existingProduct = cartProducts[existingProductIndex];
-
-        if (!!existingProduct) {
-          // product already exists -> update quantity
-          let updatedProduct = {
+        if (existingProduct) {
+          // product exists -> update quantity
+          let updatedCartProduct = {
             quantity: existingProduct.quantity++,
             ...existingProduct,
           };
 
-          //replace product from cart
-          cartProducts[existingProductIndex] = updatedProduct;
+          // swapping updated product
+          cartState.products[existingProductIndex] = updatedCartProduct;
         } else {
-          // product does not exist -> add to array
-          cartProducts.push(productObj);
+          // push product into array
+          cartState.products.push(productObj);
         }
-
-        // updating cart totalPrice
-        cartTotalPrice = +cartTotalPrice + +productObj.price;
-
-        cartState = { products: cartProducts, totalPrice: cartTotalPrice };
-      } else {
-        // file does not exist
-        cartState.products.push(productObj);
-        cartState.totalPrice = +productObj.price;
       }
-
-      console.log(cartState);
+      cartState.totalPrice = +cartState.totalPrice + +productObj.price;
+      // console.table(cartState);
 
       // writing to file
-      fs.writeFile(filePath, JSON.stringify(cartState), (err, fileContent) => {
-        err ? console.log(err) : console.log(fileContent);
+      fs.writeFile(filePath, JSON.stringify(cartState), (err) => {
+        console.log(err);
       });
     });
   }
 
-  
+  static fetchAllCartProducts(callback) {
+    getCartDataFromFiles(callback);
+  }
+
+  static deleteFromCart(productObj) {
+    //? remove / decrement from cart
+  }
+
+  static forceDeleteFromCart(productId) {
+    //! force remove if admin removes product from product file -> prod no longer exists
+  }
 }
 
 module.exports = Cart;

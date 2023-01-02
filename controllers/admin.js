@@ -1,4 +1,4 @@
-const { updateProduct } = require("../models/product");
+const { updateProduct, deleteProduct } = require("../models/product");
 const Product = require("../models/product");
 
 const getAdminProductsPage = (req, res) => {
@@ -44,14 +44,24 @@ const getAdminEditProductPage = (req, res) => {
 
 const postAdminAddProduct = (req, res) => {
   const newProduct = new Product(req.body);
-  newProduct.saveProduct();
-  res.redirect("/shop/products");
+  newProduct.saveProduct(() => {
+    res.redirect("/shop/products");
+  });
 };
 
 const postAdminEditProduct = (req, res) => {
   let productToBeUpdated = new Product(req.body);
-  productToBeUpdated.updateProduct(productToBeUpdated);
-  res.redirect("/admin/products");
+  productToBeUpdated.updateProduct(productToBeUpdated, () => {
+    res.redirect("/admin/products");
+  });
+};
+
+const postAdminDeleteProduct = (req, res) => {
+  Product.findById(req.body.productId, (product) => {
+    Product.deleteProduct(product, () => {
+      res.redirect("/admin/products");
+    });
+  });
 };
 
 module.exports = {
@@ -60,4 +70,5 @@ module.exports = {
   postAdminAddProduct,
   getAdminEditProductPage,
   postAdminEditProduct,
+  postAdminDeleteProduct,
 };

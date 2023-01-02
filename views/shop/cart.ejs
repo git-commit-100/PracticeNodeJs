@@ -1,7 +1,19 @@
 <%- include("../includes/header.ejs") %> <%- include("../includes/nav.ejs") %>
 
 <div class="cart-div">
-  <h2 class="header">Cart Page</h2>
+  <h2 class="header">My Cart</h2>
+  <% if(cartProducts.length > 0) { %>
+    <div class="cart-products-div">
+      <% for(product of CartProducts) { %>
+
+      <% } %>
+  </div>
+    <% } else { %>
+      <div class="empty-cart-div">
+        <img src="/assets/empty cart.png" alt="empty-cart"/>
+        <h2> Cart is empty, try adding something !</h2>
+      </div>
+    <% } %>    
 </div>
 
 <%- include("../includes/footer.ejs") %>

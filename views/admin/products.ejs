@@ -16,7 +16,10 @@
           class="btn"
           >Edit Product</a
         >
-        <button class="btn danger">Delete Product</button>
+        <form action="/admin/delete-product" method="post">
+          <input type="hidden" value="<%= product.id %>" name="productId"/>
+          <button type="submit" class="btn danger">Delete Product</button>
+        </form>
       </div>
     </li>
     <% } %>
