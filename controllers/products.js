@@ -20,11 +20,11 @@ const getShopProductsPage = (req, res, next) => {
 };
 
 const getShopCart = (req, res, next) => {
-  Cart.fetchAllCartProducts((cartProducts) => {
+  Cart.fetchAllCartProducts((cartState) => {
     res.render("shop/cart", {
       pageTitle: "Cart Page",
       path: "/shop/cart",
-      cartProducts: cartProducts,
+      cartState: cartState,
     });
   });
 };

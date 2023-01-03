@@ -1,19 +1,52 @@
 <%- include("../includes/header.ejs") %> <%- include("../includes/nav.ejs") %>
 
 <div class="cart-div">
-  <h2 class="header">My Cart</h2>
-  <% if(cartProducts.length > 0) { %>
-    <div class="cart-products-div">
-      <% for(product of CartProducts) { %>
-
-      <% } %>
-  </div>
-    <% } else { %>
-      <div class="empty-cart-div">
-        <img src="/assets/empty cart.png" alt="empty-cart"/>
-        <h2> Cart is empty, try adding something !</h2>
+  <% if(cartState.products.length > 0) { %>
+  <h3>Products in cart</h3>
+  <div class="cart-products-div">
+    <% for(product of cartState.products) { %>
+    <div class="product-div">
+      <div class="product">
+        <div class="img-div">
+          <img src="<%= product.img %>" />
+        </div>
+        <div class="info">
+          <h3><%= product.title %></h3>
+          <p><%= product.desc %></p>
+          <p class="price">Price: <span>$<%= product.price %></span></p>
+        </div>
+        <div class="cart-actions">
+          <button class="btn">+</button>
+          <p><%= product.quantity %></p>
+          <button class="btn">-</button>
+        </div>
       </div>
-    <% } %>    
+      <div class="product-actions">
+        <a href="/shop/products" class="btn">Go back to Products</a>
+        <button class="btn danger">Remove</button>
+      </div>
+    </div>
+    <% } %>
+  </div>
+  <hr />
+  <div class="cart-total-div">
+    <h4>Order worth</h4>
+    <h4 class="charge">$<%= cartState.totalPrice %></h4>
+    <h4>Delivery charges</h4>
+    <h4 class="charge delivery-charge">+ $5</h4>
+    <h4>Price to Pay</h4>
+    <h3 class="charge total-charge">$<%= +cartState.totalPrice+5 %></h3>
+  </div>
+  <div class="cart-checkout">
+    <a href="/shop/products" class="btn">Browse more products</a>
+    <button class="btn success">Checkout</button>
+  </div>
+  <% } else { %>
+  <div class="empty-cart-div">
+    <img src="/assets/empty cart.png" alt="empty-cart" />
+    <h2>Cart is empty, try adding something !</h2>
+  </div>
+  <% } %>
 </div>
 
 <%- include("../includes/footer.ejs") %>
