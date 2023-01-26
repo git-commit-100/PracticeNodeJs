@@ -26,7 +26,7 @@ class Product {
     this.desc = productDesc;
     this.img = productImg.toString();
     this.price = productPrice;
-    this.quantity = 0;
+    this.quantity = 1;
   }
 
   saveProduct(callback) {
