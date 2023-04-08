@@ -2,6 +2,7 @@ const Product = require("../models/product");
 const Cart = require("../models/cart");
 const { fetchAllCartProducts } = require("../models/cart");
 
+// PRODUCTS
 const getShopIndexPage = (req, res, next) => {
   res.render("shop/index", {
     pageTitle: "Shop Page",
@@ -10,15 +11,42 @@ const getShopIndexPage = (req, res, next) => {
 };
 
 const getShopProductsPage = (req, res, next) => {
-  Product.fetchAllProducts((products) => {
-    res.render("shop/products", {
-      pageTitle: "Products Page",
-      path: "/shop/products",
-      products: products, // [data] or []
-    });
-  });
+  Product.fetchAllProducts()
+    .then(([result, metadata]) => {
+      res.render("shop/products", {
+        pageTitle: "Products Page",
+        path: "/shop/products",
+        products: result, // [data] or []
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
+const getShopProductDetailPage = (req, res, next) => {
+  const { productId } = req.params;
+
+  Product.findById(productId)
+    .then(([result]) => {
+      const [product] = result;
+      if (product) {
+        // found product
+        res.render("shop/product-detail", {
+          pageTitle: product.title,
+          path: `/shop/products/${product.id}`,
+          product: product,
+        });
+      } else {
+        // no product found
+        res.status(404).render("not-found", {
+          pageTitle: "Error 404 Not Found",
+          path: "",
+        });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+// CART
 const getShopCart = (req, res, next) => {
   Cart.fetchAllCartProducts((cartState) => {
     res.render("shop/cart", {
@@ -41,26 +69,6 @@ const getShopCheckoutPage = (req, res, next) => {
   res.render("shop/checkout", {
     pageTitle: "Checkout Page",
     path: "/shop/checkout",
-  });
-};
-
-const getShopProductDetailPage = (req, res, next) => {
-  const { productId } = req.params;
-  Product.findById(productId, (product) => {
-    if (product) {
-      // found product
-      res.render("shop/product-detail", {
-        pageTitle: product.title,
-        path: `/shop/products/${product.id}`,
-        product: product,
-      });
-    } else {
-      // no product found
-      res.status(404).render("not-found", {
-        pageTitle: "Error 404 Not Found",
-        path: "",
-      });
-    }
   });
 };
 

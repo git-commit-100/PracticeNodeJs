@@ -9,6 +9,8 @@ const { get404 } = require("./controllers/error");
 const shopRouter = require("./routes/shop");
 const adminRouter = require("./routes/admin");
 
+const db = require("./utils/database");
+
 // using templating engine
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -25,7 +27,7 @@ app.use("/admin", adminRouter);
 
 // default route
 app.get("/", (req, res, next) => {
- res.redirect("/shop")
+  res.redirect("/shop");
 });
 
 // fallback page
