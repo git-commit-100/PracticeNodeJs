@@ -9,7 +9,8 @@ const { get404 } = require("./controllers/error");
 const shopRouter = require("./routes/shop");
 const adminRouter = require("./routes/admin");
 
-const db = require("./utils/database");
+const sequelize = require("./utils/database");
+const { log } = require("console");
 
 // using templating engine
 app.set("view engine", "ejs");
@@ -33,4 +34,11 @@ app.get("/", (req, res, next) => {
 // fallback page
 app.use("*", get404);
 
-app.listen(3000);
+// creating a table in db
+sequelize
+  .sync()
+  .then(() => {
+    app.listen(3000);
+    console.log("Connected to db successfully");
+  })
+  .catch((err) => console.log(err));

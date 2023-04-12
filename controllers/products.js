@@ -1,6 +1,5 @@
 const Product = require("../models/product");
 const Cart = require("../models/cart");
-const { fetchAllCartProducts } = require("../models/cart");
 
 // PRODUCTS
 const getShopIndexPage = (req, res, next) => {
@@ -11,12 +10,12 @@ const getShopIndexPage = (req, res, next) => {
 };
 
 const getShopProductsPage = (req, res, next) => {
-  Product.fetchAllProducts()
-    .then(([result, metadata]) => {
+  Product.findAll()
+    .then((products) => {
       res.render("shop/products", {
         pageTitle: "Products Page",
         path: "/shop/products",
-        products: result, // [data] or []
+        products: products, // [data] or []
       });
     })
     .catch((err) => console.log(err));
@@ -25,9 +24,8 @@ const getShopProductsPage = (req, res, next) => {
 const getShopProductDetailPage = (req, res, next) => {
   const { productId } = req.params;
 
-  Product.findById(productId)
-    .then(([result]) => {
-      const [product] = result;
+  Product.findOne({ where: { id: productId } })
+    .then((product) => {
       if (product) {
         // found product
         res.render("shop/product-detail", {

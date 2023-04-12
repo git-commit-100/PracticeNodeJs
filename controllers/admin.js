@@ -1,13 +1,12 @@
-const { updateProduct, deleteProduct } = require("../models/product");
 const Product = require("../models/product");
 
 const getAdminProductsPage = (req, res) => {
-  Product.fetchAllProducts()
-    .then(([result, metadata]) => {
+  Product.findAll()
+    .then((products) => {
       res.render("admin/products", {
         pageTitle: "Admin Products Page",
         path: "/admin/products",
-        products: result,
+        products: products,
       });
     })
     .catch((err) => console.log(err));
@@ -29,9 +28,8 @@ const getAdminEditProductPage = (req, res) => {
     res.redirect("/");
   }
 
-  Product.findById(productId)
-    .then(([result]) => {
-      const [product] = result;
+  Product.findOne({ where: { id: productId } })
+    .then((product) => {
       if (!product) {
         // no product found
         res.status(404).render("not-found", {
@@ -50,19 +48,38 @@ const getAdminEditProductPage = (req, res) => {
 };
 
 const postAdminAddProduct = (req, res) => {
-  const newProduct = new Product(req.body);
-  newProduct
-    .saveProduct()
+  const {
+    productTitle: title,
+    productDesc: desc,
+    productImg: img,
+    productPrice: price,
+  } = req.body;
+  Product.create({ title, desc, img, price })
     .then(() => {
-      res.redirect("/shop/products");
+      // console.log(newProduct);
+      res.redirect("/admin/products");
     })
     .catch((err) => console.log(err));
 };
 
 const postAdminEditProduct = (req, res) => {
-  let productToBeUpdated = new Product(req.body);
+  const {
+    productId,
+    productTitle: title,
+    productDesc: desc,
+    productImg: img,
+    productPrice: price,
+  } = req.body;
 
-  Product.updateProduct(productToBeUpdated)
+  // find in db
+  Product.findOne({ where: { id: productId } })
+    .then((product) => {
+      (product.title = title),
+        (product.desc = desc),
+        (product.img = img),
+        (product.price = price);
+      return product.save();
+    })
     .then(() => {
       res.redirect("/admin/products");
     })
@@ -70,17 +87,11 @@ const postAdminEditProduct = (req, res) => {
 };
 
 const postAdminDeleteProduct = (req, res) => {
-  Product.findById(req.body.productId)
-    .then(([result]) => {
-      const [product] = result;
+  const productId = req.body.productId;
 
-      Product.deleteProduct(product.id)
-        .then(() => {
-          res.redirect("/admin/products");
-        })
-        .catch((err) => {
-          throw new err();
-        });
+  Product.destroy({ where: { id: productId } })
+    .then(() => {
+      res.redirect("/admin/products");
     })
     .catch((err) => console.log(err));
 };
