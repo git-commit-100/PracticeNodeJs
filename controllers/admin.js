@@ -54,9 +54,18 @@ const postAdminAddProduct = (req, res) => {
     productImg: img,
     productPrice: price,
   } = req.body;
-  Product.create({ title, desc, img, price })
+
+  // we are getting this from User model passed in req obj
+  // sequelize creates magic methods for associations
+
+  req.user
+    .createProduct({
+      title,
+      desc,
+      img,
+      price,
+    })
     .then(() => {
-      // console.log(newProduct);
       res.redirect("/admin/products");
     })
     .catch((err) => console.log(err));
@@ -64,21 +73,28 @@ const postAdminAddProduct = (req, res) => {
 
 const postAdminEditProduct = (req, res) => {
   const {
-    productId,
     productTitle: title,
     productDesc: desc,
     productImg: img,
     productPrice: price,
+    productId,
   } = req.body;
 
-  // find in db
   Product.findOne({ where: { id: productId } })
     .then((product) => {
-      (product.title = title),
-        (product.desc = desc),
-        (product.img = img),
-        (product.price = price);
-      return product.save();
+      if (!product) {
+        // no product found
+        res.status(404).render("not-found", {
+          pageTitle: "Error 404 Not Found",
+          path: "",
+        });
+      } else {
+        (product.title = title),
+          (product.desc = desc),
+          (product.img = img),
+          (product.price = price);
+        return product.save();
+      }
     })
     .then(() => {
       res.redirect("/admin/products");

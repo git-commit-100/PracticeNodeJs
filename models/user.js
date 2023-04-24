@@ -1,6 +1,5 @@
-import { DataTypes } from "sequelize";
-
-import sequelize from "../utils/database";
+const { DataTypes } = require("sequelize");
+const sequelize = require("../utils/database");
 
 const User = sequelize.define("User", {
   id: {
