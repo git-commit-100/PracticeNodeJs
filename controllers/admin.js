@@ -103,7 +103,7 @@ const postAdminEditProduct = (req, res) => {
 };
 
 const postAdminDeleteProduct = (req, res) => {
-  const productId = req.body.productId;
+  const { productId } = req.body;
 
   Product.destroy({ where: { id: productId } })
     .then(() => {

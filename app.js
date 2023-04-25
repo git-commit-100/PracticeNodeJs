@@ -12,6 +12,7 @@ const adminRouter = require("./routes/admin");
 const sequelize = require("./utils/database");
 const Product = require("./models/product");
 const User = require("./models/user");
+const Cart = require("./models/cart");
 
 // using templating engine
 app.set("view engine", "ejs");
@@ -59,6 +60,8 @@ Product.belongsTo(User, {
   },
 });
 User.hasMany(Product);
+User.hasOne(Cart);
+Cart.hasMany(Product);
 
 // creating a table in db
 sequelize

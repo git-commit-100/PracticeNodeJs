@@ -46,21 +46,59 @@ const getShopProductDetailPage = (req, res, next) => {
 
 // CART
 const getShopCart = (req, res, next) => {
-  Cart.fetchAllCartProducts((cartState) => {
-    res.render("shop/cart", {
-      pageTitle: "Cart Page",
-      path: "/shop/cart",
-      cartState: cartState,
+  // get cart by user logged in (id)
+  const productKeys = [];
+  const quantityArr = [];
+
+  Cart.findAll({ where: { UserId: req.user.id } })
+    .then((cartData) => {
+      // get products details
+
+      cartData.forEach((prod) => {
+        const { ProductId, quantity } = prod;
+        productKeys.push(+ProductId);
+        quantityArr.push(+quantity);
+      });
+
+      return Product.findAll({ where: { id: productKeys } });
+    })
+    .then((products) => {
+      res.render("shop/cart", {
+        pageTitle: "Cart Page",
+        path: "/shop/cart",
+        products: products,
+        quantityArr: quantityArr,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  });
 };
 
 const postShopCart = (req, res, next) => {
   let { productId } = req.body;
-  Product.findById(productId, (product) => {
-    // finding the product
-    Cart.addToCart(product);
-  });
+
+  // find if a product already exists in cart
+  Cart.findOne({ where: { ProductId: +productId } })
+    .then((product) => {
+      console.log(product);
+      if (product) {
+        // in cart -> update quantity
+        product.quantity++;
+        return product.save();
+      } else {
+        // add to cart
+        return Cart.create({
+          quantity: 1,
+          ProductId: productId,
+          UserId: req.user.id,
+        });
+      }
+    })
+    .then(() => {
+      res.redirect("/shop/cart");
+    })
+    .catch((err) => console.log(err));
 };
 
 const getShopCheckoutPage = (req, res, next) => {
@@ -70,6 +108,16 @@ const getShopCheckoutPage = (req, res, next) => {
   });
 };
 
+const postCartDeleteProduct = (req, res, next) => {
+  const { productId } = req.body;
+
+  Cart.destroy({ where: { ProductId: productId } })
+    .then(() => {
+      res.redirect("/shop/cart");
+    })
+    .catch((err) => console.log(err));
+};
+
 module.exports = {
   getShopProductsPage,
   getShopCart,
@@ -77,4 +125,5 @@ module.exports = {
   getShopProductDetailPage,
   getShopIndexPage,
   postShopCart,
+  postCartDeleteProduct,
 };
